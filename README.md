@@ -8,7 +8,7 @@ We are going to create a basic api that performs all crud routes using Flask
 
 #### Setup virtualenv
 
-- inside flask-api-dogs folder
+- inside flask-api folder
 
 ```bash
 virtualenv .env -p python3

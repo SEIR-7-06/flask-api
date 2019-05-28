@@ -68,9 +68,19 @@ app = Flask(__name__)
 # Set Base Directory
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-# Setup Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
+# SQLite Database
+DATABASE = 'sqlite:///' + os.path.join(
     basedir, 'db.reddit')
+
+# Local Postgres Database
+# DATABASE = PostgresqlDatabase(
+#     'reddit',
+#     user='dalton',
+#     password=''
+# )
+
+# Setup Database
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Init Database

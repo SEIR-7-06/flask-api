@@ -52,7 +52,7 @@ Now initialize the databse object using SqlAlchemy:
 
 ### Database setup using SqlAlchemy
 
-SqlAlchemy is an ORM used in Flask to connect and communicate with the database. We will be setting up two different dn types. SQL lite and Postgres. 
+SqlAlchemy is an ORM used in Flask to connect and communicate with the database. We will be setting up two different db types. SQL lite and Postgres. 
 
 in terminal: 
 

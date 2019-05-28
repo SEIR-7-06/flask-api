@@ -59,7 +59,7 @@ SqlAlchemy is an ORM used in Flask to connect and communicate with the database.
 ```python
 import os
 
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 

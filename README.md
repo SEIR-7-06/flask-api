@@ -52,7 +52,13 @@ Now initialize the databse object using SqlAlchemy:
 
 ### Database setup using SqlAlchemy
 
-SqlAlchemy is an ORM used in Flask to connect and communicate with the database.
+SqlAlchemy is an ORM used in Flask to connect and communicate with the database. We will be setting up two different dn types. SQL lite and Postgres. 
+
+in terminal: 
+
+```bash
+$ createdb reddit
+```
 
 #### app.py
 
@@ -73,11 +79,7 @@ DATABASE = 'sqlite:///' + os.path.join(
     basedir, 'db.reddit')
 
 # Local Postgres Database
-# DATABASE = PostgresqlDatabase(
-#     'reddit',
-#     user='dalton',
-#     password=''
-# )
+# DATABASE = 'postgresql://localhost/reddit'
 
 # Setup Database
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE

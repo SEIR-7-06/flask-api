@@ -18,7 +18,7 @@ source .env/bin/activate
 #### Dependencies
 
 ```
-pip3 install flask flask_cors flask-marshmallow flask-sqlalchemy marshmallow-sqlalchemy
+pip3 install flask flask_cors flask-marshmallow flask-sqlalchemy marshmallow-sqlalchemy psycopg2-binary
 pip3 freeze > requirements.txt
 ```
 

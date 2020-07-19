@@ -2,7 +2,7 @@
 
 We are going to create a basic api that performs all crud routes using Flask
 
-- Create a new directory `mkdir flask-api`. 
+- Create a new directory `mkdir flask-api`.
 - Now run `cd flask-api`.
 - Run command `touch app.py models.py requirements.txt`
 
@@ -22,9 +22,7 @@ pip3 install flask flask_cors flask-marshmallow flask-sqlalchemy marshmallow-sql
 pip3 freeze > requirements.txt
 ```
 
-
-### Setup basic server 
-
+### Setup basic server
 
 ```python
 import os
@@ -44,7 +42,7 @@ if __name__ == '__main__':
     app.run(debug=DEBUG, port=PORT)
 ```
 
->8000 is the port number that your app will run on
+> 8000 is the port number that your app will run on
 
 Test everything bu running `python3 app.py` on terminal and then execute this [link](http://localhost:8000). You should get 'Hello World' in reponse.
 
@@ -52,9 +50,9 @@ Now initialize the databse object using SqlAlchemy:
 
 ### Database setup using SqlAlchemy
 
-SqlAlchemy is an ORM used in Flask to connect and communicate with the database. We will be setting up two different db types. SQL lite and Postgres. 
+SqlAlchemy is an ORM used in Flask to connect and communicate with the database. We will be setting up two different db types. SQL lite and Postgres.
 
-in terminal: 
+in terminal:
 
 ```bash
 $ createdb reddit
@@ -104,9 +102,10 @@ if __name__ == '__main__':
     app.run(debug=DEBUG, port=PORT)
 
 ```
+
 > db.reddit is the db name.
 
-Run your app using `python3 app.py` again to confirm that there are no errors. 
+Run your app using `python3 app.py` again to confirm that there are no errors.
 
 ### Sub
 
@@ -118,8 +117,8 @@ Let's create our first model for our app in `models.py`.
 from app import db, marshmallow
 
 class Sub(db.Model):
-	 __table_args__ = {'extend_existing': True} 
-	 
+	 __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     description = db.Column(db.String(300))
@@ -127,11 +126,12 @@ class Sub(db.Model):
     def __init__(self, name, description):
         self.name = name
         self.description = description
-        
+
 
 if __name__ == 'models':
     db.create_all()
 ```
+
 > When True, indicates that if this Table is already present in the given MetaData, apply further arguments within the constructor to the existing Table.
 
 ### Schema setup using Marshmallow
@@ -145,15 +145,15 @@ class SubSchema(marshmallow.Schema):
   class Meta:
     fields = ('id', 'name', 'description')
 
-sub_schema = SubSchema(strict=True)
-subs_schema = SubSchema(many=True, strict=True)
+sub_schema = SubSchema()
+subs_schema = SubSchema(many=True)
 ```
 
 Now let's add create and get methods for Sub model in `models.py`
 
 ```python
 class Sub(db.Model):
-    __table_args__ = {'extend_existing': True} 
+    __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
@@ -178,13 +178,13 @@ class Sub(db.Model):
     def get_sub(cls, subid):
         sub = Sub.query.get(subid)
         return sub_schema.jsonify(sub)
-        
+
 class SubSchema(marshmallow.Schema):
   class Meta:
     fields = ('id', 'name', 'description')
 
-sub_schema = SubSchema(strict=True)
-subs_schema = SubSchema(many=True, strict=True)
+sub_schema = SubSchema()
+subs_schema = SubSchema(many=True)
 ```
 
 Now, add routes for your Sub model in `app.py`.
@@ -211,7 +211,7 @@ Let's create a Post model such that each post has a reference to one Sub.
 
 ```python
 class Post(db.Model):
-    __table_args__ = {'extend_existing': True} 
+    __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime())
@@ -242,7 +242,7 @@ class Post(db.Model):
     def get_post(cls,post_id):
         post = Post.query.get(post_id)
         return post_schema.jsonify(post)
-``` 
+```
 
 ```python
 class PostSchema(marshmallow.Schema):
@@ -250,8 +250,8 @@ class PostSchema(marshmallow.Schema):
     fields = ('id', 'user', 'title', 'text', 'sub')
 
 # Init Schema
-post_schema = PostSchema(strict=True)
-posts_schema = PostSchema(many=True, strict=True)
+post_schema = PostSchema()
+posts_schema = PostSchema(many=True)
 ```
 
 ```python

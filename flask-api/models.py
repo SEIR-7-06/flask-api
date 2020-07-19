@@ -1,6 +1,7 @@
 from app import db, marshmallow
 from flask import jsonify
 
+
 class Sub(db.Model):
     __table_args__ = {'extend_existing': True}
 
@@ -11,7 +12,7 @@ class Sub(db.Model):
     def __init__(self, name, description):
         self.name = name
         self.description = description
-    
+
     @classmethod
     def create_sub(cls, name, description):
         new_sub = Sub(name, description)
@@ -27,21 +28,24 @@ class Sub(db.Model):
     def get_sub(cls, subid):
         sub = Sub.query.get(subid)
         return sub_schema.jsonify(sub)
-    
+
     @classmethod
     def get_subs(cls):
         subs = Sub.query.all()
         return subs_schema.jsonify(subs)
 
+
 class SubSchema(marshmallow.Schema):
     class Meta:
         fields = ('id', 'name', 'description')
 
-sub_schema = SubSchema(strict=True)
-subs_schema = SubSchema(many=True, strict=True)
+
+sub_schema = SubSchema()
+subs_schema = SubSchema(many=True,)
+
 
 class Post(db.Model):
-    __table_args__ = {'extend_existing': True} 
+    __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime())
@@ -79,12 +83,14 @@ class Post(db.Model):
 
 
 class PostSchema(marshmallow.Schema):
-  class Meta:
-    fields = ('id', 'user', 'title', 'text', 'sub')
+    class Meta:
+        fields = ('id', 'user', 'title', 'text', 'sub')
+
 
 # Init Schema
-post_schema = PostSchema(strict=True)
-posts_schema = PostSchema(many=True, strict=True)
+post_schema = PostSchema()
+posts_schema = PostSchema(many=True)
+
 
 class Comment(db.Model):
     __table_args__ = {'extend_existing': True}
@@ -98,7 +104,7 @@ class Comment(db.Model):
         self.title = title
         self.description = description
         self.post = post
-    
+
     @classmethod
     def create_comment(cls, title, description, post):
         new_comment = Comment(title, description, post)
@@ -115,7 +121,7 @@ class Comment(db.Model):
     def get_comment(cls, commentid):
         comment = Comment.query.get(commentid)
         return comment_schema.jsonify(comment)
-    
+
     @classmethod
     def get_comments(cls):
         comments = Comment.query.all()
@@ -125,9 +131,9 @@ class Comment(db.Model):
     def update_comment(cls, comment_id, title=None, description=None):
         comment = Comment.query.get(comment_id)
         if title != None:
-            comment.title = title 
+            comment.title = title
         if description != None:
-            comment.description = description 
+            comment.description = description
         db.session.commit()
         return comment_schema.jsonify(comment)
 
@@ -138,12 +144,14 @@ class Comment(db.Model):
         db.session.commit()
         return comment_schema.jsonify(comment)
 
+
 class CommentSchema(marshmallow.Schema):
     class Meta:
         fields = ('title', 'description', 'post')
 
-comment_schema = CommentSchema(strict=True)
-comments_schema = CommentSchema(many=True, strict=True)
+
+comment_schema = CommentSchema()
+comments_schema = CommentSchema(many=True)
 
 if __name__ == 'models':
     db.create_all()

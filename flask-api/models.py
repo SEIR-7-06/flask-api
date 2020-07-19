@@ -1,6 +1,8 @@
 from app import db, marshmallow
 from flask import jsonify
 
+from marshmallow import fields
+
 
 class Sub(db.Model):
     __table_args__ = {'extend_existing': True}
@@ -74,6 +76,8 @@ class Post(db.Model):
     @classmethod
     def get_post(cls, postid):
         post = Post.query.get(postid)
+        # sub = Sub.query.get(post.sub)
+        # post.sub = sub
         return post_schema.jsonify(post)
 
     @classmethod
@@ -81,8 +85,29 @@ class Post(db.Model):
         posts = Post.query.all()
         return posts_schema.jsonify(posts)
 
+    @classmethod
+    def delete_post(cls, post_id):
+        post = Post.query.get(post_id)
+        db.session.delete(post)
+        db.session.commit()
+        return post_schema.jsonify(post)
+
+    @classmethod
+    def update_post(cls, post_id, title=None, text=None, user=None, sub=None):
+        post = Post.query.get(post_id)
+        if title != None:
+            post.title = title
+        if text != None:
+            post.text = text
+        if user != None:
+            post.user = user
+        db.session.commit()
+        return post_schema.jsonify(post)
+
 
 class PostSchema(marshmallow.Schema):
+    # sub = fields.Nested(sub_schema)
+
     class Meta:
         fields = ('id', 'user', 'title', 'text', 'sub')
 
